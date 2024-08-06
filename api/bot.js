@@ -47,7 +47,7 @@ app.get('/oauth2callback', async (req, res) => {
     const code = req.query.code;
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
-
+  
     const ticket = await oAuth2Client.verifyIdToken({
         idToken: tokens.id_token,
         audience: CLIENT_ID,
@@ -130,3 +130,35 @@ app.listen(PORT, () => {
 });
 
 bot.launch();
+app.get('/login', (req, res) => {
+    const url = oAuth2Client.generateAuthUrl({
+        access_type: 'offline',
+        scope: ['profile', 'email'],
+        redirect_uri: REDIRECT_URI,
+    });
+    res.redirect(url);
+});
+
+app.get('/oauth2callback', async (req, res) => {
+    const code = req.query.code;
+    const { tokens } = await oAuth2Client.getToken(code);
+    oAuth2Client.setCredentials(tokens);
+
+    const ticket = await oAuth2Client.verifyIdToken({
+        idToken: tokens.id_token,
+        audience: CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    req.session.user = payload;
+
+    res.redirect('/profile');
+});
+
+app.get('/profile', (req, res) => {
+    if (!req.session.user) {
+        res.redirect('/login');
+    } else {
+        res.send(`Hello, ${req.session.user.name}`);
+    }
+});
