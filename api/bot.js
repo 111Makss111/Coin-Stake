@@ -3,7 +3,6 @@ const { Telegraf } = require('telegraf');
 const Joi = require('joi');
 const path = require('path');
 const express = require('express');
-const { OAuth2Client } = require('google-auth-library');
 const session = require('express-session');
 
 const app = express();
@@ -21,12 +20,6 @@ const webAppDataSchema = Joi.object({
     }).required()
 });
 
-const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const REDIRECT_URI = process.env.REDIRECT_URI || 'https://coin-stake.vercel.app/oauth2callback';
-
-const oAuth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
-
 app.use(session({
     secret: 'your_secret_key', // Замініть на більш надійний секрет
     resave: false,
@@ -34,30 +27,6 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/login', (req, res) => {
-    const url = oAuth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: ['profile', 'email']
-    });
-    res.redirect(url);
-});
-
-app.get('/oauth2callback', async (req, res) => {
-    const code = req.query.code;
-    const { tokens } = await oAuth2Client.getToken(code);
-    oAuth2Client.setCredentials(tokens);
-
-    const ticket = await oAuth2Client.verifyIdToken({
-        idToken: tokens.id_token,
-        audience: CLIENT_ID,
-    });
-
-    const payload = ticket.getPayload();
-    req.session.user = payload;
-
-    res.redirect('/'); // Redirect to the main app after successful login
-});
 
 app.get('/profile', (req, res) => {
     if (!req.session.user) {
@@ -99,7 +68,7 @@ bot.on('callback_query', (ctx) => {
     const data = ctx.callbackQuery.data;
 
     if (data === 'information') {
-        ctx.reply('Here is some information about the Tron Space App...');
+        ctx.reply('Here is some information about the CoinStake App...');
     } else if (data === 'start_app') {
         ctx.reply('Starting the app...');
     } else if (data === 'invite_friends') {
