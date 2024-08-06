@@ -38,8 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/login', (req, res) => {
     const url = oAuth2Client.generateAuthUrl({
         access_type: 'offline',
-        scope: ['profile', 'email'],
-        redirect_uri: REDIRECT_URI
+        scope: ['profile', 'email']
     });
     res.redirect(url);
 });
@@ -48,7 +47,7 @@ app.get('/oauth2callback', async (req, res) => {
     const code = req.query.code;
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
-  
+
     const ticket = await oAuth2Client.verifyIdToken({
         idToken: tokens.id_token,
         audience: CLIENT_ID,
@@ -57,7 +56,7 @@ app.get('/oauth2callback', async (req, res) => {
     const payload = ticket.getPayload();
     req.session.user = payload;
 
-    res.redirect('/profile'); // Перенаправлення на сторінку профілю після успішної авторизації
+    res.redirect('/'); // Redirect to the main app after successful login
 });
 
 app.get('/profile', (req, res) => {
