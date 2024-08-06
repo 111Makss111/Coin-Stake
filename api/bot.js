@@ -28,7 +28,7 @@ const REDIRECT_URI = process.env.REDIRECT_URI || 'https://coin-stake.vercel.app/
 const oAuth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
 app.use(session({
-    secret: 'your_secret_key',
+    secret: 'your_secret_key', // Замініть на більш надійний секрет
     resave: false,
     saveUninitialized: true,
 }));
