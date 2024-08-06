@@ -1,0 +1,203 @@
+body {
+    background: rgb(2,0,36);
+    background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(0,212,255,1) 10%, rgba(32,186,37,1) 18%, rgba(28,181,97,1) 21%, rgba(32,40,186,1) 28%, rgba(32,40,186,1) 31%, rgba(32,186,50,1) 36%, rgba(32,40,186,1) 41%);
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    padding: 20px;
+    margin: 0 auto;
+}
+
+.coin-tittle {
+    margin-top: 15px;
+}
+
+.balance, .mining-power {
+    margin: 20px 0;
+}
+
+.footer {
+    background-color: #ffffff;
+    margin: 0 auto;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 0 10px;
+    border-radius: 50px;
+}
+
+.footer-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.button, .footer-button {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 50px;
+    background-color: orange;
+    color: #fff;
+}
+
+.button:hover {
+    background-color: #e07b00;
+}
+
+.footer-button {
+    background-color: transparent;
+    color: #000;
+}
+
+.footer-button svg {
+    fill: #45a049;
+}
+
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    position: absolute; /* Центруємо модальне вікно */
+    top: 50%; /* Відстань від верху */
+    left: 50%; /* Відстань від лівого краю */
+    transform: translate(-50%, -50%); /* Зсув на 50% ширини та висоти */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 500px; /* Максимальна ширина для великого екрану */
+    border-radius: 8px;
+    text-align: center;
+}
+
+.close {
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.modal-button:hover {
+    background-color: #45a049;
+}
+
+.svg-container {
+    position: relative;
+    width: 110px;
+    height: 110px;
+    margin: 0 auto;
+}
+
+.overlay-svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.icon-cooler {
+    fill: #45a049;   
+    animation: spin 2s linear infinite;
+}
+
+/* Нові стилі для форми реєстрації */
+.register-container {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    margin: 10px 0;
+    padding: 10px;
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.coin-text {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #000;
+}
+
+.coin-tittle {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+    color: #000;
+}
+.coin-login {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.coin-login-bnn {
+    background-color: #e07b00;
+    color: #000;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 5px;
+    margin-right: 5px;
+}
