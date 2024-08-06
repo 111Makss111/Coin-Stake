@@ -200,22 +200,4 @@ button:hover {
     line-height: 24px;
     padding: 5px;
     margin-right: 5px;
-}.coin-login, #name-form {
-    margin: 0 auto;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.coin-login.hidden {
-    opacity: 0;
-    transform: translateY(-20px);
-}
-
-#name-form {
-    opacity: 0;
-    transform: translateY(20px);
-}
-
-#name-form.visible {
-    opacity: 1;
-    transform: translateY(0);
 }
