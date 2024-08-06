@@ -38,8 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/login', (req, res) => {
     const url = oAuth2Client.generateAuthUrl({
         access_type: 'offline',
-        scope: ['profile', 'email'],
-        redirect_uri: REDIRECT_URI
+        scope: ['profile', 'email']
     });
     res.redirect(url);
 });
@@ -48,7 +47,7 @@ app.get('/oauth2callback', async (req, res) => {
     const code = req.query.code;
     const { tokens } = await oAuth2Client.getToken(code);
     oAuth2Client.setCredentials(tokens);
-  
+
     const ticket = await oAuth2Client.verifyIdToken({
         idToken: tokens.id_token,
         audience: CLIENT_ID,
@@ -57,7 +56,7 @@ app.get('/oauth2callback', async (req, res) => {
     const payload = ticket.getPayload();
     req.session.user = payload;
 
-    res.redirect('/profile'); // Перенаправлення на сторінку профілю після успішної авторизації
+    res.redirect('/profile'); // Redirect to the profile page after successful login
 });
 
 app.get('/profile', (req, res) => {
@@ -68,6 +67,39 @@ app.get('/profile', (req, res) => {
     }
 });
 
+// Запуск бота
+const startBot = async () => {
+    try {
+        // Перевірка та видалення попереднього вебхука
+        await bot.telegram.deleteWebhook();
+        
+        // Налаштування нового вебхука
+        await bot.telegram.setWebhook('https://coin-stake.vercel.app/telegraf/your_secret_path');
+
+        // Запуск обробки оновлень
+        app.post('/telegraf/your_secret_path', (req, res) => {
+            bot.handleUpdate(req.body, res);
+        });
+
+        console.log('Bot started and webhook set');
+        await bot.launch();
+    } catch (error) {
+        console.error('Error starting bot', error);
+    }
+};
+
+startBot();
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
+// Обробка команд бота
 bot.start((ctx) => {
     const chatId = ctx.chat.id;
     const welcomeMessage = `
@@ -119,21 +151,4 @@ bot.on('web_app_data', (ctx) => {
 
     const chatId = webAppData.message.chat.id;
     ctx.reply(`You have opened the web app with data: ${webAppData.data}`);
-});
-
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-
-bot.launch();
-bot.launch({
-    webhook: {
-        domain: 'https://coin-stake.vercel.app',
-        port: 443,
-    }
 });
