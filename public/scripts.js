@@ -144,16 +144,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-document.getElementById('name-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const name = document.getElementById('name').value;
-    fetch('/save-name', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ name: name })
-    }).then(response => response.text()).then(data => {
-        alert(data);
+document.addEventListener('DOMContentLoaded', () => {
+    const loginButton = document.getElementById('login-btn');
+    const loginContainer = document.getElementById('login-container');
+    const nameForm = document.getElementById('name-form');
+
+    loginButton.addEventListener('click', () => {
+        loginContainer.classList.add('hidden');
+        nameForm.classList.add('visible');
+        nameForm.classList.remove('hidden');
     });
 });
