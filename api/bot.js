@@ -131,3 +131,9 @@ app.listen(PORT, () => {
 });
 
 bot.launch();
+bot.launch({
+    webhook: {
+        domain: 'https://coin-stake.vercel.app',
+        port: 443,
+    }
+});
